@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorteio de Times</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('https://i.pinimg.com/originals/b7/4e/c1/b74ec1e39b010929a816cf1ef3994f78.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        flex-direction: column; /* Adicionando flex-direction: column para alinhar conteúdo verticalmente */
+        justify-content: space-between; /* Adicionando justify-content: space-between para separar os times */
+        align-items: center;
+        color: white;
+        overflow: hidden; /* Remove a barra de rolagem */
+
+    }
+    #container {
+        max-width: 600px;
+        text-align: center;
+    }
+    input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-bottom: 2px solid #333;
+        outline: none;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    h1 {
+        margin-top: 0;
+    }
+    #players {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    #players h3 {
+        margin-top: 0;
+    }
+    #players p {
+        margin: 5px 0;
+    }
+    .player-container {
+        position: relative;
+        width: 48px;
+        height: 45px;
+        border: 2px solid white;
+        margin: 0 10px;
+    }
+   
+    .player-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .top-row {
+        display: flex;
+        justify-content: center;
+    }
+    .bottom-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    #position5{
+        position: fixed;
+        bottom: 79%;
+    }
+    #position4{
+        position: fixed;
+    bottom: 67%;
+    left: 65%;
+    }
+    #position3{
+        position: fixed;
+    bottom:67%;
+    left: 15%;
+}
+
+#position2{
+        position: fixed;
+    bottom:53%;
+    left: 55%;    
+}
+#position1{
+        position: fixed;
+    bottom:53%;
+    right: 55%;
+    
+}
+#position10{
+        position: fixed;
+    bottom:13%;
+    
+}
+
+#position9{
+        position: fixed;
+    bottom:25%;
+    left: 65%;
+    
+}
+#position8{
+        position: fixed;
+    bottom:25%;
+    right: 65%;
+    
+}
+#position7{
+        position: fixed;
+    bottom:40%;
+    left: 55%;
+    
+}
+
+#position6{
+        position: fixed;
+    bottom:40%;
+    right: 55%;
+    
+}
+
+#playerCount{
+    position: absolute;
+
+    bottom: 93%;
+    left: 7%;
+    color: aliceblue;
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+    <input type="text" id="playerName" placeholder="Nome do Jogador">
+    
+    <br><br><br><br>    <br><br><br><br>
+
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br>
+
+
+    <button onclick="addPlayer()">Adicionar</button>
+    <button onclick="drawTeams()">Sortear Times</button>
+    <div id="player">     </span></h3>
+        <h3><span id="playerCount">0
+    </div>
+    <div id="players">
+    </div>
+
+    <div class="top-row">
+        <div class="player-container" id="position1"><div class="position"></div></div>
+        <div class="player-container" id="position2"><div class="position"></div></div>
+        <div class="player-container" id="position3"><div class="position"></div></div>
+        <div class="player-container" id="position4"><div class="position"></div></div>
+        <div class="player-container" id="position5"><div class="position"></div></div>
+    </div><br>
+
+    <div class="bottom-row">
+        <div class="player-container" id="position6"><div class="position"></div></div>
+        <div class="player-container" id="position7"><div class="position"></div></div>
+        <div class="player-container" id="position8"><div class="position"></div></div>
+        <div class="player-container" id="position9"><div class="position"></div></div>
+        <div class="player-container" id="position10"><div class="position"></div></div>
+    </div>
+
+</div>
+
+<script>
+    let players = [];
+    let playerCounter = 0;
+
+    function addPlayer() {
+        const input = document.getElementById("playerName");
+        const playerName = input.value.trim();
+        if (playerName !== "") {
+            players.push(playerName);
+            playerCounter++;
+            document.getElementById("playerCount").textContent = playerCounter;
+            input.value = "";
+            displayPlayers();
+        }
+    }
+
+    function displayPlayers() {
+        const playerList = document.getElementById("playerList");
+        playerList.innerHTML = "";
+        players.forEach(player => {
+            playerList.innerHTML += `<p>${player}</p>`;
+        });
+    }
+
+    function drawTeams() {
+        const positions = document.querySelectorAll('.position');
+        if (players.length < 10) {
+            alert("Por favor, adicione pelo menos 10 jogadores para sortear os times.");
+            return;
+        }
+        // Shuffle players array
+        players = shuffle(players);
+
+        // Distribute players to positions
+        for (let i = 0; i < positions.length; i++) {
+            positions[i].innerHTML = `<span class="player-name">${players[i]}</span>`;
+        }
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+</script>
+
+</body>
+</html>
